@@ -1,0 +1,34 @@
+name: publish
+
+on: 
+  push:
+    branches: [ master ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '12.x'
+
+    - name: using the setup files
+      run: |
+        cp ./.npmrc ~/.npmrc
+    
+    # The below authToken would require read/write:package permissions
+    # if we're going to be installing packages from Github Packages
+    - name: add auth token
+      run: |
+        echo "//npm.pkg.github.com/:_authToken=${{ secrets.GHP_ACCESS_TOKEN }}" >> ~/.npmrc
+
+    - name: install dependencies
+      run: npm install
+            
+    - name: build
+      run: yarn build
+
+    - name: publish the package
+      run: npm publish
