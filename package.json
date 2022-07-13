@@ -10,18 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smileidentity/smart-camera-web.git"
+    "url": "git+https://github.com/ikhokha/ik-smile_identity-smart-camera-web"
   },
   "keywords": [
     "WebComponent",
     "WebRTC"
   ],
-  "author": "tams sokari <tams@smileidentity.com>",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/smileidentity/smart-camera-web/issues"
-  },
-  "homepage": "https://github.com/smileidentity/smart-camera-web#readme",
   "devDependencies": {
     "@cypress/code-coverage": "3.9.7",
     "cypress": "7.6.0",
