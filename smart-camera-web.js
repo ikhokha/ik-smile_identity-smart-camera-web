@@ -118,7 +118,7 @@ template.innerHTML = `
 
 	.color-richblue-shade {
 		color: #0E1B42;
-	}
+	}	
 
 	.center {
 		text-align: center;
@@ -274,7 +274,6 @@ template.innerHTML = `
 	}
 
 	.video-container #smile-cta,
-	.video-container video,
 	.id-video-container video {
 		left: 50%;
 		min-width: auto;
@@ -293,8 +292,10 @@ template.innerHTML = `
 
 	.video-container video {
 		min-height: 100%;
-		clip-path: ellipse(101px 118px);
-		transform: scaleX(-1) translateX(50%) translateY(-50%);
+		clip-path: ellipse(99px 115px);
+		transform: translateX(-33%) translateY(-24%);
+		min-width: auto;
+		position: absolute;
 	}
 
 	.id-video-container {
@@ -661,21 +662,13 @@ class SmartCameraWeb extends HTMLElement {
     ) {
       this.shadowRoot.appendChild(template.content.cloneNode(true));
       this.init();
-      const stream = await getSelfieStream();
-      const requestCameraBtnEl = this.shadowRoot.querySelector(
-        "#request-camera-access"
-      );
-      requestCameraBtnEl.addEventListener("click", (e) => {
-		const wait = setInterval(() => {
-			if(stream.active){
-				clearInterval(wait);
-				this.setActiveScreen(this.cameraScreen);
-        		this.handleSelfieStream(stream);
-			}else{
-				console.log(`SmartCameraWeb -> wait -> stream.active`, stream.active)
-			}
-		}, 500)
-      });
+	  const stream = await getSelfieStream()
+      this.shadowRoot
+        .querySelector("#request-camera-access")
+        .addEventListener("click", (e) => {
+          this.setActiveScreen(this.cameraScreen);
+          this.handleSelfieStream(stream);
+        });
     } else {
       const heading = document.createElement("h1");
       heading.classList.add("error-message");
