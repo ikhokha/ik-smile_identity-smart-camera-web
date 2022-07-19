@@ -1,47 +1,53 @@
-'use strict';
+"use strict";
 
-const VERSION = '1.0.0-beta.7';
+const VERSION = "1.0.0-beta.7";
 
 const DEFAULT_NO_OF_LIVENESS_FRAMES = 8;
 
-function getLivenessFramesIndices(totalNoOfFrames, numberOfFramesRequired = DEFAULT_NO_OF_LIVENESS_FRAMES) {
-	const selectedFrames = [];
+function getLivenessFramesIndices(
+  totalNoOfFrames,
+  numberOfFramesRequired = DEFAULT_NO_OF_LIVENESS_FRAMES
+) {
+  const selectedFrames = [];
 
-	if (totalNoOfFrames < numberOfFramesRequired) {
-		throw new Error('SmartCameraWeb: Minimum required no of frames is ', numberOfFramesRequired);
-	}
+  if (totalNoOfFrames < numberOfFramesRequired) {
+    throw new Error(
+      "SmartCameraWeb: Minimum required no of frames is ",
+      numberOfFramesRequired
+    );
+  }
 
-	const frameDivisor = numberOfFramesRequired - 1;
-	const frameInterval = Math.floor(totalNoOfFrames / frameDivisor);
+  const frameDivisor = numberOfFramesRequired - 1;
+  const frameInterval = Math.floor(totalNoOfFrames / frameDivisor);
 
-	// NOTE: when we have satisfied our required 8 frames, but have good
-	// candidates, we need to start replacing from the second frame
-	let replacementFrameIndex = 1;
+  // NOTE: when we have satisfied our required 8 frames, but have good
+  // candidates, we need to start replacing from the second frame
+  let replacementFrameIndex = 1;
 
-	for (let i = 0; i < totalNoOfFrames; i += frameInterval) {
-		if (selectedFrames.length < 8) {
-			selectedFrames.push(i);
-		} else {
-			// ACTION: replace frame, then sort selectedframes
-			selectedFrames[replacementFrameIndex] = i;
-			selectedFrames.sort((a,b) => a - b);
+  for (let i = 0; i < totalNoOfFrames; i += frameInterval) {
+    if (selectedFrames.length < 8) {
+      selectedFrames.push(i);
+    } else {
+      // ACTION: replace frame, then sort selectedframes
+      selectedFrames[replacementFrameIndex] = i;
+      selectedFrames.sort((a, b) => a - b);
 
-			// ACTION: update replacement frame index
-			replacementFrameIndex++;
-		}
-	}
+      // ACTION: update replacement frame index
+      replacementFrameIndex++;
+    }
+  }
 
-	// INFO: if we don't satisfy our requirement, we add the last index
-	const lastFrameIndex = totalNoOfFrames - 1;
+  // INFO: if we don't satisfy our requirement, we add the last index
+  const lastFrameIndex = totalNoOfFrames - 1;
 
-	if (selectedFrames.length < 8 && !selectedFrames.includes(lastFrameIndex)) {
-		selectedFrames.push(lastFrameIndex);
-	}
+  if (selectedFrames.length < 8 && !selectedFrames.includes(lastFrameIndex)) {
+    selectedFrames.push(lastFrameIndex);
+  }
 
-	return selectedFrames;
-};
+  return selectedFrames;
+}
 
-const template = document.createElement('template');
+const template = document.createElement("template");
 
 template.innerHTML = `
 <link rel="preconnect" href="https://fonts.gstatic.com"> 
@@ -49,8 +55,12 @@ template.innerHTML = `
 
 <style>
 	* {
-		font-family: 'Nunito Sans', sans-serif;
+		font-family: "Roboto", sans-serif;
 	}
+
+	html {
+		font-size: 18px;
+	  }
 
 	[hidden] {
 		display: none !important;
@@ -132,7 +142,7 @@ template.innerHTML = `
 		margin-top: 1rem;
 	}
 
-	.button {
+	/*.button {
 		-webkit-appearance: none;
 		appearance: none;
 		border-radius: 4rem;
@@ -144,14 +154,30 @@ template.innerHTML = `
 		font-weight: 600;
 		padding: .75rem 1.5rem;
 		text-align: center;
+	}*/
+
+	.button{
+		width: 100%;
+		min-width: 80px;
+		border: none;
+		border-radius: 16px;
+		font-weight: bold;
+		font-size: inherit;
+		text-align: center;
+		background-color: #ffcd00;
+		color: black;
+		cursor: pointer;
+		padding: .9rem 1rem !important;
 	}
 
 	.button--primary {
-		background-color: #17A3DC;
+		background-color: #ffcd00;
+		color: black;
 	}
 
 	.button--secondary {
 		background-color: #242F40;
+		color: white;
 	}
 
 	.icon-btn {
@@ -189,6 +215,7 @@ template.innerHTML = `
 		box-shadow: 0px 2.57415px 2.57415px rgba(0, 0, 0, 0.06);
 		display: inline-flex;
 		font-size: .5rem;
+		visibility: hidden;
 	}
 
 	.tips {
@@ -233,6 +260,10 @@ template.innerHTML = `
 		100% {
 			opacity: 0;
 		}
+	}
+
+	p{
+		font-size: 1.25rem
 	}
 
 	.video-container,
@@ -382,7 +413,7 @@ template.innerHTML = `
 
 		<div class='video-container'>
 			<svg id="image-outline" width="215" height="245" viewBox="0 0 215 245" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M210.981 122.838C210.981 188.699 164.248 241.268 107.55 241.268C50.853 241.268 4.12018 188.699 4.12018 122.838C4.12018 56.9763 50.853 4.40771 107.55 4.40771C164.248 4.40771 210.981 56.9763 210.981 122.838Z" stroke="#17A3DC" stroke-width="7.13965"/>
+				<path d="M210.981 122.838C210.981 188.699 164.248 241.268 107.55 241.268C50.853 241.268 4.12018 188.699 4.12018 122.838C4.12018 56.9763 50.853 4.40771 107.55 4.40771C164.248 4.40771 210.981 56.9763 210.981 122.838Z" stroke="#ffcd00" stroke-width="7.13965"/>
 			</svg>
 			<p id='smile-cta' class='color-gray'>SMILE</p>
 		</div>
@@ -598,485 +629,547 @@ template.innerHTML = `
 `;
 
 class SmartCameraWeb extends HTMLElement {
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		this.attachShadow({ mode: 'open' });
-		this.activeScreen = null;
-	}
+    this.attachShadow({ mode: "open" });
+    this.activeScreen = null;
+  }
 
-	setActiveScreen(element) {
-		this.activeScreen.hidden = true;
-		element.hidden = false;
-		this.activeScreen = element;
-	}
+  setActiveScreen(element) {
+    this.activeScreen.hidden = true;
+    element.hidden = false;
+    this.activeScreen = element;
+  }
 
-	connectedCallback() {
-		if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-			this.shadowRoot.appendChild(template.content.cloneNode(true));
-
-			this.shadowRoot.querySelector('#request-camera-access').addEventListener('click', e => this.init(e));
-		} else {
-			const heading = document.createElement('h1');
-			heading.classList.add('error-message');
-			heading.textContent = 'Your browser does not support this integration';
-
-			this.shadowRoot.appendChild(heading);
-		}
-	}
-
-	handleSuccess(stream) {
-		const videoExists = !!this.videoContainer.querySelector('video');
-		const video = videoExists ? this.videoContainer.querySelector('video') : document.createElement('video');
-		const videoTracks = stream.getVideoTracks();
-
-		video.autoplay = true;
-		video.playsInline = true;
-
-		if ("srcObject" in video) {
-			video.srcObject = stream;
-		} else {
-			video.src = window.URL.createObjectURL(stream);
-		}
-
-		if (!videoExists) this.videoContainer.prepend(video);
-
-		this._data.partner_params.permissionGranted = true;
-
-		this.setActiveScreen(this.cameraScreen);
-
-		this._stream = stream;
-		this._video = video;
-	}
-
-	handleIDStream(stream) {
-		const videoTracks = stream.getVideoTracks();
-		const videoExists = this.activeScreen === this.IDCameraScreen ?
-			!!this.IDCameraScreen.querySelector('video') :
-			!!this.backOfIDCameraScreen.querySelector('video');
-
-		const video = videoExists ? (
-			this.activeScreen === this.IDCameraScreen ?
-				this.IDCameraScreen.querySelector('video') :
-				this.backOfIDCameraScreen.querySelector('video')
-			) : document.createElement('video');
-
-		video.autoplay = true;
-		video.playsInline = true;
-
-		if ("srcObject" in video) {
-			video.srcObject = stream;
-		} else {
-			video.src = window.URL.createObjectURL(stream);
-		}
-
-		if (!videoExists) {
-			if (this.activeScreen === this.IDCameraScreen) {
-				this.IDCameraScreen.querySelector('.id-video-container').prepend(video);
-			} else {
-				this.backOfIDCameraScreen.querySelector('.id-video-container').prepend(video);
+  async connectedCallback() {
+    const getSelfieStream = async () => {
+      let selfieStream;
+      try {
+        selfieStream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: { facingMode: "environment" },
+        });
+      } catch (e) {
+        this.handleError(e);
+      }
+      return selfieStream;
+    };
+    if (
+      "mediaDevices" in navigator &&
+      "getUserMedia" in navigator.mediaDevices
+    ) {
+      this.shadowRoot.appendChild(template.content.cloneNode(true));
+      this.init();
+      const stream = await getSelfieStream();
+      const requestCameraBtnEl = this.shadowRoot.querySelector(
+        "#request-camera-access"
+      );
+      requestCameraBtnEl.addEventListener("click", (e) => {
+		const wait = setInterval(() => {
+			if(stream.active){
+				clearInterval(wait);
+				this.setActiveScreen(this.cameraScreen);
+        		this.handleSelfieStream(stream);
+			}else{
+				console.log(`SmartCameraWeb -> wait -> stream.active`, stream.active)
 			}
-		}
+		}, 500)
+      });
+    } else {
+      const heading = document.createElement("h1");
+      heading.classList.add("error-message");
+      heading.textContent = "Your browser does not support this integration";
 
-		this._IDStream = stream;
-		this._IDVideo = video;
-	}
+      this.shadowRoot.appendChild(heading);
+    }
+  }
 
-	handleError(e) {
-		if (e.name === 'NotAllowedError' || e.name === 'SecurityError') {
-			this.errorMessage.textContent = `
+  handleSelfieStream(stream) {
+    const videoExists = !!this.videoContainer.querySelector("video");
+    const video = videoExists
+      ? this.videoContainer.querySelector("video")
+      : document.createElement("video");
+
+    video.autoplay = true;
+    video.playsInline = true;
+
+    if ("srcObject" in video) {
+      video.srcObject = stream;
+    } else {
+      video.src = window.URL.createObjectURL(stream);
+    }
+
+    if (!videoExists) this.videoContainer.prepend(video);
+
+    this._data.partner_params.permissionGranted = true;
+
+    this._stream = stream;
+    this._video = video;
+    console.log(`SmartCameraWeb -> handleSelfieStream -> video`, video);
+  }
+
+  handleIDStream(stream) {
+    const videoExists =
+      this.activeScreen === this.IDCameraScreen
+        ? !!this.IDCameraScreen.querySelector("video")
+        : !!this.backOfIDCameraScreen.querySelector("video");
+
+    const video = videoExists
+      ? this.activeScreen === this.IDCameraScreen
+        ? this.IDCameraScreen.querySelector("video")
+        : this.backOfIDCameraScreen.querySelector("video")
+      : document.createElement("video");
+
+    video.autoplay = true;
+
+    video.playsInline = true;
+
+    if ("srcObject" in video) {
+      video.srcObject = stream;
+    } else {
+      video.src = window.URL.createObjectURL(stream);
+    }
+
+    if (!videoExists) {
+      if (this.activeScreen === this.IDCameraScreen) {
+        this.IDCameraScreen.querySelector(".id-video-container").prepend(video);
+      } else {
+        this.backOfIDCameraScreen
+          .querySelector(".id-video-container")
+          .prepend(video);
+      }
+    }
+
+    this._IDStream = stream;
+    this._IDVideo = video;
+    console.log(`SmartCameraWeb -> handleIDStream -> video`, video);
+  }
+
+  handleError(e) {
+    if (e.name === "NotAllowedError" || e.name === "SecurityError") {
+      this.errorMessage.textContent = `
 				Looks like camera access was not granted, or was blocked by a browser
 				level setting / extension. Please follow the prompt from the URL bar,
 				or extensions, and enable access.
 
 				You may need to refresh to start all over again
 				`;
-		}
+    }
 
-		if (e.name === 'AbortError') {
-			this.errorMessage.textContent = `
+    if (e.name === "AbortError") {
+      this.errorMessage.textContent = `
 				Oops! Something happened, and we lost access to your stream.
 
 				Please refresh to start all over again
 				`;
-		}
+    }
 
-		if (e.name === 'NotReadableError') {
-			this.errorMessage.textContent = `
+    if (e.name === "NotReadableError") {
+      this.errorMessage.textContent = `
 				There seems to be a problem with your device's camera, or its connection.
 
 				Please check this, and when resolved, try again. Or try another device.
 				`;
-		}
+    }
 
-		if (e.name === 'NotFoundError') {
-			this.errorMessage.textContent = `
+    if (e.name === "NotFoundError") {
+      this.errorMessage.textContent = `
 				We are unable to find a video stream.
 
 				You may need to refresh to start all over again
 				`;
-		}
+    }
 
-		if (e.name === 'TypeError') {
-			this.errorMessage.textContent = `
+    if (e.name === "TypeError") {
+      this.errorMessage.textContent = `
 				This site is insecure, and as such cannot have access to your camera.
 
 				Try to navigate to a secure version of this page, or contact the owner.
-			`
-		}
-	}
-
-	init(e) {
-		this.errorMessage = this.shadowRoot.querySelector('#error');
-
-		this.captureID = this.hasAttribute('capture-id');
-		this.captureBackOfID = this.getAttribute('capture-id') === 'back';
-
-		this.requestScreen = this.shadowRoot.querySelector('#request-screen');
-		this.activeScreen = this.requestScreen;
-		this.cameraScreen = this.shadowRoot.querySelector('#camera-screen');
-		this.reviewScreen = this.shadowRoot.querySelector('#review-screen');
-		this.IDCameraScreen = this.shadowRoot.querySelector('#id-camera-screen');
-		this.IDReviewScreen = this.shadowRoot.querySelector('#id-review-screen');
-		this.backOfIDCameraScreen = this.shadowRoot.querySelector('#back-of-id-camera-screen');
-		this.backOfIDReviewScreen = this.shadowRoot.querySelector('#back-of-id-review-screen');
-		this.thanksScreen = this.shadowRoot.querySelector('#thanks-screen');
-
-		this.videoContainer = this.shadowRoot.querySelector('.video-container');
-		this.smileCTA = this.shadowRoot.querySelector('#smile-cta');
-		this.imageOutline = this.shadowRoot.querySelector('#image-outline path');
-		this.startImageCapture = this.shadowRoot.querySelector('#start-image-capture');
-		this.captureIDImage = this.shadowRoot.querySelector('#capture-id-image');
-		this.captureBackOfIDImage = this.shadowRoot.querySelector('#capture-back-of-id-image');
-		this.reviewImage = this.shadowRoot.querySelector('#review-image');
-		this.IDReviewImage = this.shadowRoot.querySelector('#id-review-image');
-		this.backOfIDReviewImage = this.shadowRoot.querySelector('#back-of-id-review-image');
-
-		this.reStartImageCapture = this.shadowRoot.querySelector('#restart-image-capture');
-		this.reCaptureIDImage = this.shadowRoot.querySelector('#re-capture-id-image');
-		this.reCaptureBackOfIDImage = this.shadowRoot.querySelector('#re-capture-back-of-id-image');
-		this.selectSelfie = this.shadowRoot.querySelector('#select-selfie');
-		this.selectIDImage = this.shadowRoot.querySelector('#select-id-image');
-		this.selectBackOfIDImage = this.shadowRoot.querySelector('#select-back-of-id-image');
-
-		this.startImageCapture.addEventListener('click', () => {
-			this._startImageCapture();
-		});
-
-		this.selectSelfie.addEventListener('click', () => {
-			this._selectSelfie();
-		});
-
-		this.selectIDImage.addEventListener('click', () => {
-			this._selectIDImage();
-		});
-
-		this.selectBackOfIDImage.addEventListener('click', () => {
-			this._selectIDImage(true);
-		});
-
-		this.captureIDImage.addEventListener('click', () => {
-			this._captureIDImage();
-		});
-
-		this.captureBackOfIDImage.addEventListener('click', () => {
-			this._captureIDImage();
-		});
-
-		this.reStartImageCapture.addEventListener('click', () => {
-			this._reStartImageCapture();
-		});
-
-		this.reCaptureIDImage.addEventListener('click', () => {
-			this._reCaptureIDImage();
-		});
-
-		this.reCaptureBackOfIDImage.addEventListener('click', () => {
-			this._reCaptureIDImage();
-		});
-
-		this._videoStreamDurationInMS = 3800;
-		this._imageCaptureIntervalInMS = 200;
-
-		this._data = {
-			partner_params: {
-				libraryVersion: VERSION,
-				permissionGranted: false,
-			},
-			images: []
-		};
-		this._rawImages = [];
-
-		navigator.mediaDevices.getUserMedia({ audio: false, video: true })
-			.then(stream => {
-				this.handleSuccess(stream);
-			})
-			.catch(e => {
-				this.handleError(e)
-			});
-	}
-
-	_startImageCapture() {
-		this.startImageCapture.disabled = true;
-
-		/**
-		 * this was culled from https://jakearchibald.com/2013/animated-line-drawing-svg/
-		 */
-		// NOTE: initialise image outline
-		const imageOutlineLength = this.imageOutline.getTotalLength();
-		// Clear any previous transition
-		this.imageOutline.style.transition = 'none';
-		// Set up the starting positions
-		this.imageOutline.style.strokeDasharray = imageOutlineLength + ' ' + imageOutlineLength;
-		this.imageOutline.style.strokeDashoffset = imageOutlineLength;
-		// Trigger a layout so styles are calculated & the browser
-		// picks up the starting position before animating
-		this.imageOutline.getBoundingClientRect();
-		// Define our transition
-		this.imageOutline.style.transition =
-			`stroke-dashoffset ${this._videoStreamDurationInMS / 1000}s ease-in-out`;
-		// Go!
-		this.imageOutline.style.strokeDashoffset = '0';
-
-		this.smileCTA.style.animation = `fadeInOut ease ${this._videoStreamDurationInMS / 1000}s`;
-
-		this._imageCaptureInterval = setInterval(() => {
-			this._capturePOLPhoto();
-		}, this._imageCaptureIntervalInMS);
-
-		this._videoStreamTimeout = setTimeout(() => {
-			this._stopVideoStream(this._stream);
-		}, this._videoStreamDurationInMS);
-	}
-
-	_captureIDImage() {
-		const canvas = document.createElement('canvas');
-		canvas.width = 1024;
-		canvas.height = 576;
-
-		const context = this._drawIDImage(canvas);
-
-		const image = canvas.toDataURL('image/jpeg');
-
-		if (this.activeScreen === this.IDCameraScreen) {
-			this.IDReviewImage.src = image;
-		} else {
-			this.backOfIDReviewImage.src = image;
-		}
-
-		this._data.images.push({
-			image_type_id: this.activeScreen === this.IDCameraScreen ? 3 : 7,
-			image: image.split(',')[1]
-		});
-
-		this._stopIDVideoStream();
-
-		if (this.activeScreen === this.IDCameraScreen) {
-			this.setActiveScreen(this.IDReviewScreen);
-		} else {
-			this.setActiveScreen(this.backOfIDReviewScreen);
-		}
-	}
-
-	_drawImage(canvas, video = this._video) {
-		const context = canvas.getContext('2d');
-
-		const imageDimension = 240;
-
-		const xCenterOfImage = video.videoWidth / 2;
-		const yCenterOfImage = video.videoHeight / 2
-
-		context.drawImage(
-			video,
-			(xCenterOfImage - (imageDimension / 2)), (yCenterOfImage - (imageDimension / 2)),
-			imageDimension, imageDimension,
-			0, 0,
-			canvas.width, canvas.height
-		);
-
-		return context;
-	}
-
-	_drawIDImage(canvas, video = this._IDVideo) {
-		const context = canvas.getContext('2d');
-
-		const aspectRatio = video.videoWidth / video.videoHeight;
-
-		// NOTE: aspectRatio is greater than 1 in landscape mode, less in portrait
-		if (aspectRatio < 1) {
-			const cropHeight = video.videoWidth * aspectRatio;
-
-			context.drawImage(
-				video,
-				0, ((video.videoHeight - cropHeight) / 2),
-				video.videoWidth, cropHeight,
-				0, 0,
-				canvas.width, canvas.height
-			);
-		} else {
-			context.drawImage(video, 0, 0, canvas.width, canvas.height);
-		}
-
-		return context;
-	}
-
-	_capturePOLPhoto() {
-		const canvas = document.createElement('canvas');
-		canvas.width = 144;
-		canvas.height = 144;
-
-		const contextWithImage = this._drawImage(canvas);
-
-		const imageData = contextWithImage.getImageData(0, 0, canvas.width, canvas.height);
-		// NOTE: this gives us access to rgba values
-		let data = imageData.data;
-
-		// NOTE: we loop over every 4 elements because pixel data is stored in
-		// 4 indexes
-		for (let i = 0; i < data.length; i += 4) {
-			// NOTE: This section converts the pixels in the image to Greyscale
-			// Step 1: Get color channels
-			var r = data[i]; // Red Channel
-			var g = data[i + 1]; // Green Channel
-			var b = data[i + 2]; // Blue Channel
-
-			// Step 2: Compute greyscale image using a luminousity based weighted average method
-			// ref: https://goodcalculators.com/rgb-to-grayscale-conversion-calculator/
-			var brightness = 0.299 * r + 0.587 * g + 0.114 * b;
-
-			// ACTION: Replace all channels to grey-scale value
-			data[i] = brightness;
-			data[i + 1] = brightness;
-			data[i + 2] = brightness;
-		}
-
-		contextWithImage.putImageData(imageData, 0, 0);
-
-		this._rawImages.push(canvas.toDataURL('image/jpeg'));
-	}
-
-	_captureReferencePhoto() {
-		const canvas = document.createElement('canvas');
-		canvas.width = 480;
-		canvas.height = 480;
-
-		const context = this._drawImage(canvas);
-
-		const image = canvas.toDataURL('image/jpeg');
-
-		this._referenceImage = image;
-
-		this._data.images.push({
-			image_type_id: 2,
-			image: image.split(',')[1]
-		});
-	}
-
-	_stopVideoStream(stream) {
-		clearTimeout(this._videoStreamTimeout);
-		clearInterval(this._imageCaptureInterval);
-		clearInterval(this._drawingInterval);
-		this.smileCTA.style.animation = 'none';
-
-		this._capturePOLPhoto(); // NOTE: capture the last photo
-		this._captureReferencePhoto();
-		stream.getTracks().forEach(track => track.stop());
-
-		this.reviewImage.src = this._referenceImage;
-
-		const totalNoOfFrames = this._rawImages.length;
-
-		const livenessFramesIndices = getLivenessFramesIndices(totalNoOfFrames);
-
-		this._data.images = this._data.images.concat(livenessFramesIndices.map(imageIndex => ({
-			image_type_id: 6,
-			image: this._rawImages[imageIndex].split(',')[1],
-		})));
-
-		this.setActiveScreen(this.reviewScreen);
-	}
-
-	_stopIDVideoStream(stream = this._IDStream) {
-		stream.getTracks().forEach(track => track.stop());
-	}
-
-	async _startIDCamera() {
-		try {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				audio: false,
-				video: { facingMode: 'environment', width: { min: 1280 } }
-			});
-
-			this.handleIDStream(stream);
-		} catch (e) {
-			this.handleError(e);
-		}
-	}
-
-	_selectSelfie() {
-		if (!this.captureID) {
-			this._publishSelectedImages();
-		} else {
-			this.setActiveScreen(this.IDCameraScreen);
-			this._startIDCamera();
-		}
-	}
-
-	_selectIDImage(backOfIDCaptured = false) {
-		if (!this.captureBackOfID || backOfIDCaptured) {
-			this._publishSelectedImages();
-		} else {
-			this.setActiveScreen(this.backOfIDCameraScreen);
-			this._startIDCamera();
-		}
-	}
-
-	_publishSelectedImages() {
-		this.dispatchEvent(
-			new CustomEvent('imagesComputed', { detail: this._data })
-		);
-
-		this.setActiveScreen(this.thanksScreen);
-	}
-
-	async _reStartImageCapture() {
-		this.startImageCapture.disabled = false;
-
-		this._data.images = [];
-
-		try {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				audio: false,
-				video: true
-			});
-
-			this.handleSuccess(stream);
-		} catch (e) {
-			this.handleError(e);
-		}
-	}
-
-	async _reCaptureIDImage() {
-		if (this.activeScreen === this.IDReviewScreen) {
-			this.setActiveScreen(this.IDCameraScreen);
-		} else {
-			this.setActiveScreen(this.backOfIDCameraScreen);
-		}
-
-		// NOTE: removes the last element in the list
-		this._data.images.pop();
-
-		try {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				audio: false,
-				video: { facingMode: 'environment', width: { min: 1280 } }
-			});
-
-			this.handleIDStream(stream);
-		} catch (e) {
-			this.handleError(e);
-		}
-	}
+			`;
+    }
+  }
+
+  init() {
+    this.errorMessage = this.shadowRoot.querySelector("#error");
+
+    this.captureID = this.hasAttribute("capture-id");
+    this.captureBackOfID = this.getAttribute("capture-id") === "back";
+
+    this.requestScreen = this.shadowRoot.querySelector("#request-screen");
+    this.activeScreen = this.requestScreen;
+    this.cameraScreen = this.shadowRoot.querySelector("#camera-screen");
+    this.reviewScreen = this.shadowRoot.querySelector("#review-screen");
+    this.IDCameraScreen = this.shadowRoot.querySelector("#id-camera-screen");
+    this.IDReviewScreen = this.shadowRoot.querySelector("#id-review-screen");
+    this.backOfIDCameraScreen = this.shadowRoot.querySelector(
+      "#back-of-id-camera-screen"
+    );
+    this.backOfIDReviewScreen = this.shadowRoot.querySelector(
+      "#back-of-id-review-screen"
+    );
+    this.thanksScreen = this.shadowRoot.querySelector("#thanks-screen");
+
+    this.videoContainer = this.shadowRoot.querySelector(".video-container");
+    this.smileCTA = this.shadowRoot.querySelector("#smile-cta");
+    this.imageOutline = this.shadowRoot.querySelector("#image-outline path");
+    this.startImageCapture = this.shadowRoot.querySelector(
+      "#start-image-capture"
+    );
+    this.captureIDImage = this.shadowRoot.querySelector("#capture-id-image");
+    this.captureBackOfIDImage = this.shadowRoot.querySelector(
+      "#capture-back-of-id-image"
+    );
+    this.reviewImage = this.shadowRoot.querySelector("#review-image");
+    this.IDReviewImage = this.shadowRoot.querySelector("#id-review-image");
+    this.backOfIDReviewImage = this.shadowRoot.querySelector(
+      "#back-of-id-review-image"
+    );
+
+    this.reStartImageCapture = this.shadowRoot.querySelector(
+      "#restart-image-capture"
+    );
+    this.reCaptureIDImage = this.shadowRoot.querySelector(
+      "#re-capture-id-image"
+    );
+    this.reCaptureBackOfIDImage = this.shadowRoot.querySelector(
+      "#re-capture-back-of-id-image"
+    );
+    this.selectSelfie = this.shadowRoot.querySelector("#select-selfie");
+    this.selectIDImage = this.shadowRoot.querySelector("#select-id-image");
+    this.selectBackOfIDImage = this.shadowRoot.querySelector(
+      "#select-back-of-id-image"
+    );
+
+    this.startImageCapture.addEventListener("click", () => {
+      this._startImageCapture();
+    });
+
+    this.selectSelfie.addEventListener("click", () => {
+      this._selectSelfie();
+    });
+
+    this.selectIDImage.addEventListener("click", () => {
+      this._selectIDImage();
+    });
+
+    this.selectBackOfIDImage.addEventListener("click", () => {
+      this._selectIDImage(true);
+    });
+
+    this.captureIDImage.addEventListener("click", () => {
+      this._captureIDImage();
+    });
+
+    this.captureBackOfIDImage.addEventListener("click", () => {
+      this._captureIDImage();
+    });
+
+    this.reStartImageCapture.addEventListener("click", () => {
+      this._reStartImageCapture();
+    });
+
+    this.reCaptureIDImage.addEventListener("click", () => {
+      this._reCaptureIDImage();
+    });
+
+    this.reCaptureBackOfIDImage.addEventListener("click", () => {
+      this._reCaptureIDImage();
+    });
+
+    this._videoStreamDurationInMS = 3800;
+    this._imageCaptureIntervalInMS = 200;
+
+    this._data = {
+      partner_params: {
+        libraryVersion: VERSION,
+        permissionGranted: false,
+      },
+      images: [],
+    };
+    this._rawImages = [];
+  }
+
+  _startImageCapture() {
+    this.startImageCapture.disabled = true;
+
+    /**
+     * this was culled from https://jakearchibald.com/2013/animated-line-drawing-svg/
+     */
+    // NOTE: initialise image outline
+    const imageOutlineLength = this.imageOutline.getTotalLength();
+    // Clear any previous transition
+    this.imageOutline.style.transition = "none";
+    // Set up the starting positions
+    this.imageOutline.style.strokeDasharray =
+      imageOutlineLength + " " + imageOutlineLength;
+    this.imageOutline.style.strokeDashoffset = imageOutlineLength;
+    // Trigger a layout so styles are calculated & the browser
+    // picks up the starting position before animating
+    this.imageOutline.getBoundingClientRect();
+    // Define our transition
+    this.imageOutline.style.transition = `stroke-dashoffset ${
+      this._videoStreamDurationInMS / 1000
+    }s ease-in-out`;
+    // Go!
+    this.imageOutline.style.strokeDashoffset = "0";
+
+    this.smileCTA.style.animation = `fadeInOut ease ${
+      this._videoStreamDurationInMS / 1000
+    }s`;
+
+    this._imageCaptureInterval = setInterval(() => {
+      this._capturePOLPhoto();
+    }, this._imageCaptureIntervalInMS);
+
+    this._videoStreamTimeout = setTimeout(() => {
+      this._stopVideoStream(this._stream);
+    }, this._videoStreamDurationInMS);
+  }
+
+  _captureIDImage() {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1024;
+    canvas.height = 576;
+
+    const context = this._drawIDImage(canvas);
+
+    const image = canvas.toDataURL("image/jpeg");
+
+    if (this.activeScreen === this.IDCameraScreen) {
+      this.IDReviewImage.src = image;
+    } else {
+      this.backOfIDReviewImage.src = image;
+    }
+
+    this._data.images.push({
+      image_type_id: this.activeScreen === this.IDCameraScreen ? 3 : 7,
+      image: image.split(",")[1],
+    });
+
+    this._stopIDVideoStream();
+
+    if (this.activeScreen === this.IDCameraScreen) {
+      this.setActiveScreen(this.IDReviewScreen);
+    } else {
+      this.setActiveScreen(this.backOfIDReviewScreen);
+    }
+  }
+
+  _drawImage(canvas, video = this._video) {
+    const context = canvas.getContext("2d");
+
+    const imageDimension = 240;
+
+    const xCenterOfImage = video.videoWidth / 2;
+    const yCenterOfImage = video.videoHeight / 2;
+
+    context.drawImage(
+      video,
+      xCenterOfImage - imageDimension / 2,
+      yCenterOfImage - imageDimension / 2,
+      imageDimension,
+      imageDimension,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    return context;
+  }
+
+  _drawIDImage(canvas, video = this._IDVideo) {
+    const context = canvas.getContext("2d");
+
+    const aspectRatio = video.videoWidth / video.videoHeight;
+
+    // NOTE: aspectRatio is greater than 1 in landscape mode, less in portrait
+    if (aspectRatio < 1) {
+      const cropHeight = video.videoWidth * aspectRatio;
+
+      context.drawImage(
+        video,
+        0,
+        (video.videoHeight - cropHeight) / 2,
+        video.videoWidth,
+        cropHeight,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+    } else {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    }
+
+    return context;
+  }
+
+  _capturePOLPhoto() {
+    const canvas = document.createElement("canvas");
+    canvas.width = 144;
+    canvas.height = 144;
+
+    const contextWithImage = this._drawImage(canvas);
+
+    const imageData = contextWithImage.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+    // NOTE: this gives us access to rgba values
+    let data = imageData.data;
+
+    // NOTE: we loop over every 4 elements because pixel data is stored in
+    // 4 indexes
+    for (let i = 0; i < data.length; i += 4) {
+      // NOTE: This section converts the pixels in the image to Greyscale
+      // Step 1: Get color channels
+      var r = data[i]; // Red Channel
+      var g = data[i + 1]; // Green Channel
+      var b = data[i + 2]; // Blue Channel
+
+      // Step 2: Compute greyscale image using a luminousity based weighted average method
+      // ref: https://goodcalculators.com/rgb-to-grayscale-conversion-calculator/
+      var brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+
+      // ACTION: Replace all channels to grey-scale value
+      data[i] = brightness;
+      data[i + 1] = brightness;
+      data[i + 2] = brightness;
+    }
+
+    contextWithImage.putImageData(imageData, 0, 0);
+
+    this._rawImages.push(canvas.toDataURL("image/jpeg"));
+  }
+
+  _captureReferencePhoto() {
+    const canvas = document.createElement("canvas");
+    canvas.width = 480;
+    canvas.height = 480;
+
+    const context = this._drawImage(canvas);
+
+    const image = canvas.toDataURL("image/jpeg");
+
+    this._referenceImage = image;
+
+    this._data.images.push({
+      image_type_id: 2,
+      image: image.split(",")[1],
+    });
+  }
+
+  _stopVideoStream(stream) {
+    clearTimeout(this._videoStreamTimeout);
+    clearInterval(this._imageCaptureInterval);
+    clearInterval(this._drawingInterval);
+    this.smileCTA.style.animation = "none";
+
+    this._capturePOLPhoto(); // NOTE: capture the last photo
+    this._captureReferencePhoto();
+    stream.getTracks().forEach((track) => track.stop());
+
+    this.reviewImage.src = this._referenceImage;
+
+    const totalNoOfFrames = this._rawImages.length;
+
+    const livenessFramesIndices = getLivenessFramesIndices(totalNoOfFrames);
+
+    this._data.images = this._data.images.concat(
+      livenessFramesIndices.map((imageIndex) => ({
+        image_type_id: 6,
+        image: this._rawImages[imageIndex].split(",")[1],
+      }))
+    );
+
+    this.setActiveScreen(this.reviewScreen);
+  }
+
+  _stopIDVideoStream(stream = this._IDStream) {
+    stream.getTracks().forEach((track) => track.stop());
+  }
+
+  async _startIDCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { facingMode: "environment", width: { min: 1280 } },
+      });
+
+      this.handleIDStream(stream);
+    } catch (e) {
+      this.handleError(e);
+    }
+  }
+
+  _selectSelfie() {
+    if (!this.captureID) {
+      this._publishSelectedImages();
+    } else {
+      this.setActiveScreen(this.IDCameraScreen);
+      this._startIDCamera();
+    }
+  }
+
+  _selectIDImage(backOfIDCaptured = false) {
+    if (!this.captureBackOfID || backOfIDCaptured) {
+      this._publishSelectedImages();
+    } else {
+      this.setActiveScreen(this.backOfIDCameraScreen);
+      this._startIDCamera();
+    }
+  }
+
+  _publishSelectedImages() {
+    this.dispatchEvent(
+      new CustomEvent("imagesComputed", { detail: this._data })
+    );
+
+    this.setActiveScreen(this.thanksScreen);
+  }
+
+  async _reStartImageCapture() {
+    this.startImageCapture.disabled = false;
+
+    this._data.images = [];
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { facingMode: "environment" },
+      });
+      this.setActiveScreen(this.cameraScreen);
+      this.handleSelfieStream(stream);
+    } catch (e) {
+      this.handleError(e);
+    }
+  }
+
+  async _reCaptureIDImage() {
+    if (this.activeScreen === this.IDReviewScreen) {
+      this.setActiveScreen(this.IDCameraScreen);
+    } else {
+      this.setActiveScreen(this.backOfIDCameraScreen);
+    }
+
+    // NOTE: removes the last element in the list
+    this._data.images.pop();
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { facingMode: "environment", width: { min: 1280 } },
+      });
+
+      this.handleIDStream(stream);
+    } catch (e) {
+      this.handleError(e);
+    }
+  }
 }
 
-window.customElements.define('smart-camera-web', SmartCameraWeb);
+window.customElements.define("smart-camera-web", SmartCameraWeb);
