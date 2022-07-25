@@ -176,6 +176,11 @@ template.innerHTML = `
 		color: black;
 	}
 
+	.button--primary-dark {
+		background-color: #1D1D1B;
+		color: white;
+	}
+
 	.button--secondary {
 		background-color: transparent;
 		color: #09828B;
@@ -294,8 +299,8 @@ template.innerHTML = `
 
 	.video-container video {
 		min-height: 100%;
-		clip-path: ellipse(99px 115px);
-		transform: translateX(-33%) translateY(-24%);
+		clip-path: ellipse(101px 116px);
+		transform: translateX(-33.2%) translateY(-24.4%);
 		min-width: auto;
 		position: absolute;
 	}
@@ -417,17 +422,6 @@ template.innerHTML = `
 			Next
 		</button>
 
-		<p class='powered-by text-transform-uppercase'>
-		<span class='logo-mark'>
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-				<symbol id="logo-mark">
-					<path fill="#fff" d="M6.67 4V2.82c0-1.65-.9-2.6-2.46-2.6s-2.43.95-2.43 2.6v.3c0 .08.06.13.13.13.08 0 .13-.05.13-.13v-.3c0-.87.3-2.33 2.17-2.33C6.1.5 6.38 1.95 6.38 2.82V4H1.65a.85.85 0 00-.86.83L.97 8.4c0 .45.4.82.87.82h4.51c.47 0 .86-.37.86-.82l.19-3.56A.9.9 0 006.67 4zm.23 4.38c0 .33-.26.55-.57.55h-4.5a.57.57 0 01-.57-.55L1.08 4.8c0-.3.26-.55.57-.55h4.86c.31 0 .57.25.57.55L6.9 8.38z"/>
-				</symbol>
-				<use href="#logo-mark" />
-			</svg>
-		</span>
-		<span>Powered By</span>
-		<span class='company'>Smile Identity</span>
 	</p>
 	</div>
 </div>
@@ -439,7 +433,7 @@ template.innerHTML = `
 
 		<div class='video-container'>
 			<svg id="image-outline" width="215" height="245" viewBox="0 0 215 245" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M210.981 122.838C210.981 188.699 164.248 241.268 107.55 241.268C50.853 241.268 4.12018 188.699 4.12018 122.838C4.12018 56.9763 50.853 4.40771 107.55 4.40771C164.248 4.40771 210.981 56.9763 210.981 122.838Z" stroke="#ffcd00" stroke-width="7.13965"/>
+				<path d="M210.981 122.838C210.981 188.699 164.248 241.268 107.55 241.268C50.853 241.268 4.12018 188.699 4.12018 122.838C4.12018 56.9763 50.853 4.40771 107.55 4.40771C164.248 4.40771 210.981 56.9763 210.981 122.838Z" stroke="#09828B" stroke-width="8"/>
 			</svg>
 			<p id='smile-cta' class='color-gray'>SMILE</p>
 		</div>
@@ -455,15 +449,6 @@ template.innerHTML = `
 			Take Selfie
 		</button>
 
-		<p class='powered-by text-transform-uppercase'>
-		<span class='logo-mark'>
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-				<use href="#logo-mark" />
-			</svg>
-		</span>
-		<span>Powered By</span>
-		<span class='company'>Smile Identity</span>
-	</p>
 	</div>
 </div>
 
@@ -525,15 +510,7 @@ template.innerHTML = `
 				</button>
 			</div>
 		</div>
-		<p class='powered-by text-transform-uppercase'>
-		<span class='logo-mark'>
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-				<use href="#logo-mark" />
-			</svg>
-		</span>
-		<span>Powered By</span>
-		<span class='company'>Smile Identity</span>
-	</p>
+
 	</div>
 </div>
 
@@ -580,30 +557,13 @@ template.innerHTML = `
 				height='259'
 			/>
 		</div>
-		<p class='powered-by text-transform-uppercase'>
-		<span class='logo-mark'>
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-				<use href="#logo-mark" />
-			</svg>
-		</span>
-		<span>Powered By</span>
-		<span class='company'>Smile Identity</span>
-	</p>
+
 	</div>
 </div>
 
 <div hidden id='back-of-id-camera-screen' class='flow center'>
 	<h1>Take Back of ID Card Photo</h1>
 	<div class='section | flow'>
-		<p class='powered-by text-transform-uppercase'>
-			<span class='logo-mark'>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-					<use href="#logo-mark" />
-				</svg>
-			</span>
-			<span>Powered By</span>
-			<span class='company'>Smile Identity</span>
-		</p>
 
 		<div class='id-video-container'>
 			<svg class="image-frame" fill="none" height="259" width="396" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 259">
@@ -625,15 +585,6 @@ template.innerHTML = `
 <div hidden id='back-of-id-review-screen' class='flow center'>
 	<h1>Review Back of ID Card Photo</h1>
 	<div class='section | flow'>
-		<p class='powered-by text-transform-uppercase'>
-			<span class='logo-mark'>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-					<use href="#logo-mark" />
-				</svg>
-			</span>
-			<span>Powered By</span>
-			<span class='company'>Smile Identity</span>
-		</p>
 
 		<div class='id-video-container'>
 			<svg class="image-frame" fill="none" height="259" width="396" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 259">
@@ -670,16 +621,6 @@ template.innerHTML = `
 <div hidden id='thanks-screen' class='flow center'>
 	<div class='section | flow'>
 		<h1>Thank you</h1>
-
-		<p class='powered-by text-transform-uppercase'>
-			<span class='logo-mark'>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-					<use href="#logo-mark" />
-				</svg>
-			</span>
-			<span>Powered By</span>
-			<span class='company'>Smile Identity</span>
-		</p>
 	</div>
 </div>
 `;
