@@ -140,7 +140,7 @@ template.innerHTML = `
 	}
 
 	.flow > * + * {
-		margin-top: 1rem;
+		margin-top: .5rem;
 	}
 
 	/*.button {
@@ -177,8 +177,8 @@ template.innerHTML = `
 	}
 
 	.button--secondary {
-		background-color: #242F40;
-		color: white;
+		background-color: transparent;
+		color: #09828B;
 	}
 
 	.icon-btn {
@@ -354,6 +354,15 @@ template.innerHTML = `
 		flex-direction: column;
 		gap: 20px;
 	}
+	.re-take-selfie-container {
+		display: flex;
+		width: 50%;
+		margin: 0 auto;
+	}
+	.re-take-selfie-text {
+		color: #09828B;
+		padding-left: 5px;
+	}
 </style>
 
 <svg hidden fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 259">
@@ -424,18 +433,9 @@ template.innerHTML = `
 </div>
 
 <div hidden id='camera-screen' class='flow center'>
-	<h1>Take a Selfie</h1>
+	<h2>Take a Selfie</h2>
 
 	<div class='section | flow'>
-		<p class='powered-by text-transform-uppercase'>
-			<span class='logo-mark'>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-					<use href="#logo-mark" />
-				</svg>
-			</span>
-			<span>Powered By</span>
-			<span class='company'>Smile Identity</span>
-		</p>
 
 		<div class='video-container'>
 			<svg id="image-outline" width="215" height="245" viewBox="0 0 215 245" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -454,11 +454,21 @@ template.innerHTML = `
 		<button id='start-image-capture' class='button button--primary | center' type='button'>
 			Take Selfie
 		</button>
+
+		<p class='powered-by text-transform-uppercase'>
+		<span class='logo-mark'>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
+				<use href="#logo-mark" />
+			</svg>
+		</span>
+		<span>Powered By</span>
+		<span class='company'>Smile Identity</span>
+	</p>
 	</div>
 </div>
 
 <div hidden id='review-screen' class='flow center'>
-	<h1>Review Selfie</h1>
+	<h2>Review Selfie</h2>
 
 	<div class='section | flow'>
 		<img
@@ -482,23 +492,24 @@ template.innerHTML = `
 		</button>
 
 		<button id='restart-image-capture' class='button button--secondary | center' type='button'>
-			Re-take selfie
+			<div class="re-take-selfie-container">
+			<svg id="Icon_Retry_24px" data-name="Icon Retry 24px" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+			<g id="invisible_box" data-name="invisible box">
+				<rect id="Rectangle_35917" data-name="Rectangle 35917" width="20" height="20" fill="none"/>
+			</g>
+			<g id="icons_Q2" data-name="icons Q2" transform="translate(0.833 0.824)">
+				<path id="Path_371539" data-name="Path 371539" d="M2,11.153A9.167,9.167,0,0,0,19.375,15.2a.83.83,0,1,0-1.458-.792,7.417,7.417,0,0,1-6.75,4.25,7.5,7.5,0,1,1,5.583-12.5H14.542a.875.875,0,0,0-.875.708.833.833,0,0,0,.833.958h4.167a.833.833,0,0,0,.833-.833V2.862a.875.875,0,0,0-.708-.875.833.833,0,0,0-.958.833V4.862A9.167,9.167,0,0,0,2,11.153Z" transform="translate(-2 -1.977)" fill="#09828b"/>
+			</g>
+		</svg>
+			<span class="re-take-selfie-text">Re-take selfie</span>
+			</div>
 		</button>
 	</div>
 </div>
 
 <div hidden id='id-camera-screen' class='flow center'>
-	<h1>Take ID Card Photo</h1>
+	<h2>Take ID Photo</h2>
 	<div class='section | flow'>
-		<p class='powered-by text-transform-uppercase'>
-			<span class='logo-mark'>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-					<use href="#logo-mark" />
-				</svg>
-			</span>
-			<span>Powered By</span>
-			<span class='company'>Smile Identity</span>
-		</p>
 
 		<div class='id-video-container'>
 			<svg class="image-frame" fill="none" height="259" width="396" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 259">
@@ -514,21 +525,21 @@ template.innerHTML = `
 				</button>
 			</div>
 		</div>
+		<p class='powered-by text-transform-uppercase'>
+		<span class='logo-mark'>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
+				<use href="#logo-mark" />
+			</svg>
+		</span>
+		<span>Powered By</span>
+		<span class='company'>Smile Identity</span>
+	</p>
 	</div>
 </div>
 
 <div hidden id='id-review-screen' class='flow center'>
-	<h1>Review ID Card</h1>
+	<h2>Review ID photo</h2>
 	<div class='section | flow'>
-		<p class='powered-by text-transform-uppercase'>
-			<span class='logo-mark'>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
-					<use href="#logo-mark" />
-				</svg>
-			</span>
-			<span>Powered By</span>
-			<span class='company'>Smile Identity</span>
-		</p>
 
 		<div class='id-video-container'>
 			<svg class="image-frame" fill="none" height="259" width="396" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 259">
@@ -536,18 +547,28 @@ template.innerHTML = `
 			</svg>
 
 			<div class='actions'>
-				<button id='select-id-image' class='button icon-btn' type='button'>
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox='0 0 41 41' height="40" width="40">
-						<circle cx="20.5" cy="20.5" r="20" stroke="#fff"/>
-						<path d="M12.3 20.5l6.15 6.15 12.3-12.3" stroke="#fff" stroke-width="3.075" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-					</svg>
-					<span class='visually-hidden'>Accept Image</span>
-				</button>
 				<button id='re-capture-id-image' class='button icon-btn' type='button'>
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" height="40" width="40" viewBox='0 0 17 18'>
-						<path d="M3.314 15.646a8.004 8.004 0 01-2.217-4.257 8.06 8.06 0 01.545-4.655l1.789.788a6.062 6.062 0 001.264 6.737 6.033 6.033 0 008.551 0c2.358-2.37 2.358-6.224 0-8.592a5.996 5.996 0 00-4.405-1.782l.662 2.354-3.128-.796-3.127-.796 2.25-2.324L7.748 0l.55 1.953a7.966 7.966 0 016.33 2.326 8.004 8.004 0 012.342 5.684 8.005 8.005 0 01-2.343 5.683A7.928 7.928 0 018.97 18a7.928 7.928 0 01-5.656-2.354z" fill="currentColor"/>
+					<svg id="Icon_Retry_32px" data-name="Icon Retry 32px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+						<g id="invisible_box" data-name="invisible box">
+						<rect id="Rectangle_35917" data-name="Rectangle 35917" width="40" height="40" fill="none"/>
+						</g>
+						<g id="icons_Q2" data-name="icons Q2" transform="translate(1.334 1.318)">
+						<path id="Path_371539" data-name="Path 371539" d="M2,16.659a14.667,14.667,0,0,0,27.8,6.467,1.328,1.328,0,1,0-2.333-1.267,11.867,11.867,0,0,1-10.8,6.8,12,12,0,1,1,8.933-20H22.067a1.4,1.4,0,0,0-1.4,1.133A1.333,1.333,0,0,0,22,11.326h6.667A1.333,1.333,0,0,0,30,9.992v-6.6a1.4,1.4,0,0,0-1.133-1.4,1.333,1.333,0,0,0-1.533,1.333V6.592A14.667,14.667,0,0,0,2,16.659Z" transform="translate(-2 -1.977)" fill="#ffcd00"/>
+						</g>
 					</svg>
 					<span class='visually-hidden'>Re-Capture</span>
+				</button>
+				<button id='select-id-image' class='button icon-btn' type='button'>
+					<svg id="Icon_CheckMark_Default_32x32" data-name="Icon CheckMark Default 32x32" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 32 32">
+						<g id="invisible_box" data-name="invisible box">
+						<rect id="shape" width="32" height="32" fill="none"/>
+						</g>
+						<g id="icons_Q2" data-name="icons Q2" transform="translate(1.334 1.334)">
+						<path id="Path_282317" data-name="Path 282317" d="M16.667,4.667a12,12,0,1,1-12,12,12,12,0,0,1,12-12m0-2.667A14.6,14.6,0,1,0,27.057,6.276,14.667,14.667,0,0,0,16.667,2Z" transform="translate(-2 -2)" fill="#00adbb"/>
+						<path id="Path_282318" data-name="Path 282318" d="M16.4,26.667l-4-3.933a1.4,1.4,0,0,1-.133-1.8,1.267,1.267,0,0,1,2-.133l3.067,3.067,8.4-8.4A1.333,1.333,0,0,1,27.6,17.333l-9.333,9.333a1.267,1.267,0,0,1-1.867,0Z" transform="translate(-5.334 -6.4)" fill="#00adbb"/>
+						</g>
+					</svg>
+					<span class='visually-hidden'>Accept Image</span>
 				</button>
 			</div>
 
@@ -559,6 +580,15 @@ template.innerHTML = `
 				height='259'
 			/>
 		</div>
+		<p class='powered-by text-transform-uppercase'>
+		<span class='logo-mark'>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 10">
+				<use href="#logo-mark" />
+			</svg>
+		</span>
+		<span>Powered By</span>
+		<span class='company'>Smile Identity</span>
+	</p>
 	</div>
 </div>
 
