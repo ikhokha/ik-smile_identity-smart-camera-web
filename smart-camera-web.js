@@ -56,6 +56,7 @@ template.innerHTML = `
 <style>
 	* {
 		font-family: "Roboto", sans-serif;
+		color: #3F3E38;
 	}
 
 	html {
@@ -263,7 +264,8 @@ template.innerHTML = `
 	}
 
 	p{
-		font-size: 1.25rem
+		font-size: 1.1rem;
+		line-height: 1.5;
 	}
 
 	.video-container,
@@ -343,6 +345,10 @@ template.innerHTML = `
 		width: 90%;
 		z-index: 2;
 	}
+
+	.ik-camera-icon-container {
+		margin: 0 auto;
+	}
 </style>
 
 <svg hidden fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 259">
@@ -388,12 +394,26 @@ template.innerHTML = `
 			<span class='company'>Smile Identity</span>
 		</p>
 
+		<p class="ik-camera-icon-icon">
+			<svg id="Illus_XSml_80px_-_Take_Photo_camera" data-name="Illus XSml 80px - Take Photo camera" xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+				<rect id="Rectangle_35856" data-name="Rectangle 35856" width="96" height="96" fill="none"/>
+				<g id="Group_42923" data-name="Group 42923" transform="translate(15.073 19.45)">
+					<path id="Subtraction_31" data-name="Subtraction 31" d="M59.63,54.5H6.345A6.352,6.352,0,0,1,0,48.157V15.171A6.353,6.353,0,0,1,6.345,8.825h9.6l.546-3.3C16.493,2.476,19.341,0,22.838,0h20.3a6.969,6.969,0,0,1,4,1.24,5.49,5.49,0,0,1,2.2,3.1,15.137,15.137,0,0,0-1.125,5.753,15.3,15.3,0,0,0,.333,3.172H46.261L45.047,5.888V5.521c0-.429-.762-1.077-1.908-1.077h-20.3c-1.148,0-1.905.648-1.905,1.077v.361l-.059.36-1.151,7.022H6.345a1.909,1.909,0,0,0-1.908,1.908V48.157a1.909,1.909,0,0,0,1.908,1.907H59.63a1.908,1.908,0,0,0,1.908-1.907V25.2a15.217,15.217,0,0,0,1.9.117,15.329,15.329,0,0,0,2.538-.21v23.05A6.353,6.353,0,0,1,59.63,54.5ZM33.277,43.764A13.615,13.615,0,1,1,46.9,30.151,13.628,13.628,0,0,1,33.277,43.764Zm0-23.422a9.81,9.81,0,1,0,9.809,9.81A9.818,9.818,0,0,0,33.277,20.341Z" transform="translate(0 2.598)" fill="#3f3e38"/>
+					<g id="Group_42919" data-name="Group 42919" transform="translate(50.944)">
+					<g id="Group_42918" data-name="Group 42918" transform="translate(0 0)">
+						<path id="Union_39" data-name="Union 39" d="M0,12.593A12.592,12.592,0,1,1,12.594,25.185,12.592,12.592,0,0,1,0,12.593Zm3.879,0a8.715,8.715,0,1,0,8.713-8.719A8.712,8.712,0,0,0,3.881,12.593Zm6.6,4.23V14.708H8.363a2.119,2.119,0,0,1-2.115-2.115,2.225,2.225,0,0,1,2.115-2.115h2.115V8.362a2.119,2.119,0,0,1,2.115-2.116,2.227,2.227,0,0,1,2.115,2.116v2.115h2.115a2.112,2.112,0,0,1,2.115,2.115,2.222,2.222,0,0,1-2.115,2.115H14.709v2.115a2.116,2.116,0,0,1-2.115,2.115A2.221,2.221,0,0,1,10.479,16.823Z" fill="#3f3e38"/>
+					</g>
+					</g>
+				</g>
+			</svg>
+		</p>
+
 		<p>
-			We need access to your camera so that we can take selfie and proof-of-life images.
+		We need <b>access to your camera</b> so that we can take a selfie (proof-of-life) and a photo of your ID card/book.
 		</p>
 
 		<button id='request-camera-access' class='button button--primary | center' type='button'>
-			Request Camera Access
+			Next
 		</button>
 	</div>
 </div>
